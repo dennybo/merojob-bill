@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Bills{% endblock title %}
+
+{% block main %}
+<header>
+  <h1>Latest bills</h1>
+</header>
+
+<section>
+
+{% if bills %}
+
+  <table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Client</th>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Rate</th>
+        <th>Total amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for bill in bills %}
+      <tr>
+        <td>{{ bill.created|date:"Y M d" }}</td>
+        <td><a href="{{ bill.client.get_absolute_url }}">{{ bill.client }}</a></td>
+        <td>{{ bill.item }}</td>
+        <td style="text-align: right;">{{ bill.quantity }}</td>
+        <td style="text-align: right;">${{ bill.rate|floatformat:2 }}</td>
+        <td style="text-align: right;">${{ bill.total|floatformat:2 }}</td>
+        <td>
+          <a href="{% url 'bills:update' bill.id %}">Edit</a>
+          <a href="{% url 'bills:delete' bill.id %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% else %}
+
+  <p>No bills found.</p>
+
+{% endif %}
+</section>
+
+{% endblock main %}

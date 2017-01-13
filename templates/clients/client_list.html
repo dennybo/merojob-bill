@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Clients{% endblock title %}
+
+{% block main %}
+
+<header>
+  <h1>Clients</h1>
+</header>
+
+<section>
+
+{% if clients %}
+
+  <table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+      <tr>
+        <th>Client Name</th>
+        <th>Address</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for client in clients %}
+      <tr>
+        <td><a href="{{ client.get_absolute_url }}">{{ client.name }}</a></td>
+        <td>{{ client.address }}</td>
+        <td>
+          <a href="{% url 'clients:update' client.id %}">Edit</a>
+          <a href="{% url 'clients:delete' client.id %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% else %}
+
+  <p>No clients found.</p>
+
+{% endif %}
+
+</section>
+
+{% endblock main %}

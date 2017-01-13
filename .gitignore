@@ -1,0 +1,17 @@
+# python cache
+*__pycache__*
+*.pyc
+*cache*
+
+# backup files
+*.swp
+*~
+*.#*
+*#*#
+
+# database files
+*.sql*
+*.db.json
+
+# Migrations
+*/migrations/0*.py

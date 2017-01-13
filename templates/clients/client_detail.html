@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Bills{% endblock title %}
+
+{% block main %}
+<header>
+  <h1>{{ client.name }}, <small><small><em>{{ client.address }}</em></small></small></h1>
+</header>
+
+<section>
+  Options:
+  <ul>
+    <li><a href="{% url 'clients:update' client.id %}">Edit</a></li>
+    <li><a href="{% url 'clients:delete' client.id %}">Delete</a></li>
+    <li><a href="{% url 'bills:create' %}?client_id={{ client.id }}">Add client bill</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Client bills</h3>
+
+{% if client.bill_set.all %}
+
+  <table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Rate</th>
+        <th>Total amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for bill in client.bill_set.all %}
+      <tr>
+        <td>{{ bill.created|date:"Y M d" }}</td>
+        <td>{{ bill.item }}</td>
+        <td style="text-align: right;">{{ bill.quantity }}</td>
+        <td style="text-align: right;">${{ bill.rate|floatformat:2 }}</td>
+        <td style="text-align: right;">${{ bill.total|floatformat:2 }}</td>
+        <td>
+          <a href="{% url 'bills:update' bill.id %}">Edit</a>
+          <a href="{% url 'bills:delete' bill.id %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% else %}
+
+  <p>No bills found.</p>
+
+{% endif %}
+</section>
+
+{% endblock main %}
