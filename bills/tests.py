@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
@@ -44,6 +45,13 @@ class CreateBillViewTest(TestCase):
         The create bill form should not crash if invalid initial client_id is given
         in the GET parameter.
         """
-        client = Client.objects.create(name="Name", address="address")
-        response = self.client.get(reverse('bills:create') + "?client_id=" + str(client.id + 100))
-        self.assertEqual(response.status_code, 200)
+        # Create a user to login
+        user = User.objects.create_user('username', 'merojob1')
+        user.is_active = True
+        user.save()
+        # Create a test client to work with
+        c = Client.objects.create(name="Name", address="address")
+
+        self.client.login(username='username', password='merojob1')
+        response = self.client.get(reverse('bills:create') + "?client_id=" + str(c.id + 100))
+        self.assertNotEqual(response.status_code, 200)
