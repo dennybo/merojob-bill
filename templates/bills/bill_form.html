@@ -11,7 +11,7 @@
 <section>
   <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Create bill">
+    <input type="submit" value="{{ page_title }}">
   </form>
 </section>
 {% endblock main %}
