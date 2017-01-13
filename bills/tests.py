@@ -47,11 +47,13 @@ class CreateBillViewTest(TestCase):
         """
         # Create a user to login
         user = User.objects.create_user('username', 'merojob1')
-        user.is_active = True
-        user.save()
         # Create a test client to work with
         c = Client.objects.create(name="Name", address="address")
 
-        self.client.login(username='username', password='merojob1')
+        self.client.force_login(user)
         response = self.client.get(reverse('bills:create') + "?client_id=" + str(c.id + 100))
-        self.assertNotEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_bill_view_without_logging_in(self):
+        response = self.client.get(reverse('bills:create'))
+        self.assertEqual(response.status_code, 302)
