@@ -20,6 +20,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^', include('django.contrib.auth.urls')),
     url(r'^bills/', include('bills.urls')),
     url(r'^clients/', include('clients.urls')),
     url(r'^admin/', admin.site.urls),

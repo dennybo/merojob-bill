@@ -13,6 +13,11 @@
 <footer>
   <h2>Main menu:</h2>
   <ul>
+  {% if request.user.is_authenticated %}
+    <li>Logged in as {{ request.user.username }}. <a href="{% url 'logout' %}">Logout</a></li>
+  {% else %}
+    <li><a href="{% url 'login' %}">Login</a></li>
+  {% endif %}
     <li><a href="{% url 'bills:list' %}">View bills</a></li>
     <li><a href="{% url 'clients:list' %}">View clients</a></li>
     <li><a href="{% url 'bills:create' %}">Add bill</a></li>

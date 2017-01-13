@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block main %}
+<header>
+  <h1>Login</h1>
+</header>
+
+<section>
+  {% if next %}
+    {% if request.user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
+</section>
+
+<section>
+  <form class="" action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Login">
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+  </form>
+</section>
+
+{% endblock main %}

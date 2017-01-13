@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -7,7 +8,7 @@ from .forms import BillForm
 from .models import Bill
 
 
-class CreateView(generic.edit.CreateView):
+class CreateView(LoginRequiredMixin, generic.edit.CreateView):
     template_name = 'bills/bill_form.html'
     model = Bill
     form_class = BillForm
@@ -31,7 +32,7 @@ class CreateView(generic.edit.CreateView):
         return initial
 
 
-class UpdateView(generic.edit.UpdateView):
+class UpdateView(LoginRequiredMixin, generic.edit.UpdateView):
     template_name = 'bills/bill_form.html'
     model = Bill
     form_class = BillForm
@@ -43,7 +44,7 @@ class UpdateView(generic.edit.UpdateView):
         return context
 
 
-class DeleteView(generic.edit.DeleteView):
+class DeleteView(LoginRequiredMixin, generic.edit.DeleteView):
     model = Bill
     success_url = reverse_lazy('bills:list')
 
