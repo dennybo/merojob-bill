@@ -27,7 +27,7 @@ class CreateView(LoginRequiredMixin, generic.edit.CreateView):
         if client_id:
             try:
                 initial['client'] = Client.objects.get(id=client_id)
-            except:
+            except Client.DoesNotExist:
                 pass
         return initial
 
